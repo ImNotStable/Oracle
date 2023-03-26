@@ -1,0 +1,51 @@
+name: Oracle
+load: STARTUP
+version: '${project.version}'
+main: com.imnotstable.oracle.Oracle
+api-version: 1.19
+authors: [ ImNotStable ]
+depend: [ Vault, LuckPerms, PlaceholderAPI ]
+commands:
+  staffchat:
+    usage: /<command>
+    aliases: [ sc ]
+    permission: command.staffchat
+  stafftracker:
+    usage: /<command>
+    aliases: [ st ]
+    permission: command.stafftracker
+  mutechat:
+    usage: /<command>
+    aliases: [ mc ]
+    permission: command.mutechat
+  clearchat:
+    usage: /<command>
+    aliases: [ cc ]
+    permission: command.clearchat
+  chatcolor:
+    usage: /<command>
+    permission: command.chatcolor
+  nickname:
+    usage: /<command>
+    aliases: [ nick ]
+    permission: command.nickname
+  message:
+    usage: /<command>
+    aliases: [ msg ]
+    permission: command.message
+  reply:
+    usage: /<command>
+    aliases: [ r ]
+    permission: command.reply
+  economy:
+    usage: /<command>
+    aliases: [ eco ]
+    permission: command.economy
+  balance:
+    usage: /<command>
+    aliases: [ bal ]
+    permission: command.balance
+  balancetop:
+    usage: /<command>
+    aliases: [ baltop ]
+    permission: command.balancetop
