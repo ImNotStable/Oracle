@@ -38,7 +38,7 @@ public class ChatEvent implements Listener {
     }
 
     public Component formatChatMessage(Player player, Component displayName, Component message) {
-        Component username = Component.text(NicknameCommand.getNickname(player)).hoverEvent(ColorUtils.coloredComponent(
+        Component username = Component.text(NicknameCommand.getNicknameFormatted(player)).hoverEvent(ColorUtils.coloredComponent(
                 "&3" +
                         player.getName() +
                         "'s Statistics\n\n" +
@@ -48,10 +48,13 @@ public class ChatEvent implements Listener {
                         "\n" +
                         "&7Balance &8» &a$" +
                         PlayerDataUtils.getDouble(player.getUniqueId(), "balance") +
+                        "\n" +
+                        "&7Tokens &8» &b⛃" +
+                        PlayerDataUtils.getDouble(player.getUniqueId(), "tokens") +
                         "\n"
         ));
-        message = message.hoverEvent(ColorUtils.coloredComponent("&cClick to report.")).clickEvent(ClickEvent.runCommand("/report " + player.getName()));
-        Component style = Component.join(JoinConfiguration.noSeparators(),
+        message = message.hoverEvent(ColorUtils.coloredComponent("&cClick to report.")).clickEvent(ClickEvent.runCommand("/report " + player.getName() + " " + message + " " + System.currentTimeMillis()));
+        return Component.join(JoinConfiguration.noSeparators(),
                         ColorUtils.coloredComponent(Oracle.getChat().getPlayerPrefix(player)),
                         username,
                         ColorUtils.coloredComponent(Oracle.getChat().getPlayerSuffix(player) +
@@ -59,6 +62,5 @@ public class ChatEvent implements Listener {
                         ChatColorCommand.getChatColor(player.getUniqueId())),
                         message
         );
-        return Component.join(JoinConfiguration.noSeparators(), style, message);
     }
 }

@@ -1,6 +1,5 @@
 package com.imnotstable.oracle.stafftracker;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -41,35 +40,21 @@ public class DataManager {
     public static void save(File file, YamlConfiguration config){
         try {
             config.save(file);
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
-    public static void createAccount(OfflinePlayer player) {
-        if (!accountExists(player)) {
-            File file = getFile(player.getUniqueId());
-            save(file, loadAccount(player));
+    public static void createAccount(UUID uuid) {
+        if (!accountExists(uuid)) {
+            File file = getFile(uuid);
+            save(file, loadAccount(uuid));
         }
-        loadAccount(player);
-    }
-
-    public static YamlConfiguration loadAccount(OfflinePlayer player) {
-        File file = getFile(player.getUniqueId());
-        loadedConfigurations.put(player.getUniqueId(), YamlConfiguration.loadConfiguration(file));
-        return loadedConfigurations.get(player.getUniqueId());
+        loadAccount(uuid);
     }
 
     public static YamlConfiguration loadAccount(UUID uuid) {
         File file = getFile(uuid);
         loadedConfigurations.put(uuid, YamlConfiguration.loadConfiguration(file));
         return loadedConfigurations.get(uuid);
-    }
-
-    public static YamlConfiguration getAccount(OfflinePlayer player) {
-        if (!loadedConfigurations.containsKey(player.getUniqueId())) {
-            return loadAccount(player);
-        }
-        return loadedConfigurations.get(player.getUniqueId());
     }
 
     public static YamlConfiguration getAccount(UUID uuid) {
@@ -79,20 +64,13 @@ public class DataManager {
         return loadedConfigurations.get(uuid);
     }
 
-    public static boolean accountExists(OfflinePlayer player) {
-        return fileExists(getFile(player.getUniqueId()));
+    public static boolean accountExists(UUID uuid) {
+        return fileExists(getFile(uuid));
     }
 
-    public static void setTime(OfflinePlayer player, long time) {
-        YamlConfiguration config = getAccount(player);
+    public static void setTime(UUID uuid, long time) {
+        YamlConfiguration config = getAccount(uuid);
         config.set("stafftracker", time);
-    }
-
-    public static long getTime(OfflinePlayer player) {
-        YamlConfiguration config = getAccount(player);
-        if (!config.contains("stafftracker"))
-            config.set("stafftracker", 0L);
-        return config.getLong("stafftracker");
     }
 
     public static long getTime(UUID uuid) {
@@ -101,18 +79,18 @@ public class DataManager {
             config.set("stafftracker", 0L);
         return config.getLong("stafftracker");
     }
-    public static void addTime(OfflinePlayer player, long amount) {
-        long newTime = getTime(player) + amount;
-        setTime(player, newTime);
+    public static void addTime(UUID uuid, long amount) {
+        long newTime = getTime(uuid) + amount;
+        setTime(uuid, newTime);
     }
 
-    public static void setWeek(OfflinePlayer player, int week) {
-        YamlConfiguration config = getAccount(player);
+    public static void setWeek(UUID uuid, int week) {
+        YamlConfiguration config = getAccount(uuid);
         config.set("week", week);
     }
 
-    public static int getWeek(OfflinePlayer player) {
-        YamlConfiguration config = getAccount(player);
+    public static int getWeek(UUID uuid) {
+        YamlConfiguration config = getAccount(uuid);
         if (!config.contains("week"))
             config.set("week", StaffTrackerManager.getWeek());
         return config.getInt("week");

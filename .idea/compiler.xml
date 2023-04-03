@@ -10,8 +10,5 @@
         <module name="Oracle" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Oracle" target="16" />
-    </bytecodeTargetLevel>
   </component>
 </project>

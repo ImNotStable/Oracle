@@ -2,12 +2,9 @@ package com.imnotstable.oracle.scoreboard;
 
 
 import com.imnotstable.oracle.Oracle;
-import com.imnotstable.oracle.stafftracker.DataManager;
-import com.imnotstable.oracle.stafftracker.StaffTrackerManager;
 import com.imnotstable.oracle.utils.ColorUtils;
 import com.imnotstable.oracle.utils.NumberUtils;
 import com.imnotstable.oracle.utils.PlayerDataUtils;
-import com.imnotstable.oracle.utils.TimeUtils;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,8 +28,7 @@ public class ScoreboardManager implements Listener {
                         "",
                         " &b&l" + player.getName(),
                         "  &3Balance: &f$" + NumberUtils.formatSuffix(PlayerDataUtils.getDouble(player.getUniqueId(), "balance")),
-                        "  &3Staff Tracker: &f" + TimeUtils.formatTime(DataManager.getTime(player)),
-                        "  &3Afk Timer: &f" + TimeUtils.formatTime(StaffTrackerManager.getAfkTimer(player)),
+                        "  &3Tokens: &f" + NumberUtils.formatSuffix(PlayerDataUtils.getDouble(player.getUniqueId(), "tokens")),
                         "",
                         " &b&lServer",
                         "  &3Online: &f" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers(),

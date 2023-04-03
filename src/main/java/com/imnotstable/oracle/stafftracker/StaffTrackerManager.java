@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.UUID;
 
 public class StaffTrackerManager implements Listener {
 
@@ -20,12 +21,13 @@ public class StaffTrackerManager implements Listener {
         plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> Bukkit.getOnlinePlayers().stream().filter(
                 player -> player.hasPermission("stafftracker.track")).forEach(
                         player -> {
+                            UUID uuid = player.getUniqueId();
                             if ((System.currentTimeMillis() - afkTimer.getOrDefault(player, System.currentTimeMillis()) < 300_000L)) {
-                                if (DataManager.getWeek(player) == getWeek()) {
-                                    DataManager.addTime(player, 1L);
+                                if (DataManager.getWeek(uuid) == getWeek()) {
+                                    DataManager.addTime(uuid, 1L);
                                 } else {
-                                    DataManager.setWeek(player, getWeek());
-                                    DataManager.setTime(player, 0L);
+                                    DataManager.setWeek(uuid, getWeek());
+                                    DataManager.setTime(uuid, 0L);
                                 }
                             }
                         }
@@ -39,9 +41,10 @@ public class StaffTrackerManager implements Listener {
     }
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        if (event.getPlayer().hasPermission("stafftracker.track")) {
-            DataManager.createAccount(event.getPlayer());
-            afkTimer.put(event.getPlayer(), System.currentTimeMillis());
+        Player player = event.getPlayer();
+        if (player.hasPermission("stafftracker.track")) {
+            DataManager.createAccount(player.getUniqueId());
+            afkTimer.put(player, System.currentTimeMillis());
         }
     }
 
@@ -53,8 +56,9 @@ public class StaffTrackerManager implements Listener {
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
-        if (event.getPlayer().hasPermission("stafftracker.track"))
-            afkTimer.put(event.getPlayer(), System.currentTimeMillis());
+        Player player = event.getPlayer();
+        if (player.hasPermission("stafftracker.track"))
+            afkTimer.put(player, System.currentTimeMillis());
     }
 
 }

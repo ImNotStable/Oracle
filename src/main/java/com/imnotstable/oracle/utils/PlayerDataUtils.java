@@ -26,7 +26,9 @@ public class PlayerDataUtils {
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(getFile(uuid));
             configuration.set("username", Bukkit.getOfflinePlayer(uuid).getName());
             configuration.set("balance", 0D);
+            configuration.set("tokens", 0L);
             configuration.set("nickname", Bukkit.getOfflinePlayer(uuid).getName());
+            configuration.set("chatcolor", "&7");
             loadedConfigurations.put(uuid, configuration);
             saveConfiguration(uuid);
             return configurationExists(uuid);
@@ -89,12 +91,30 @@ public class PlayerDataUtils {
         loadedConfigurations.get(uuid).set(key, value);
     }
 
-    public static double getDouble(UUID uuid, String key) {
+    public static Double getDouble(UUID uuid, String key) {
         if (configurationIsLoaded(uuid)) {
             return loadedConfigurations.get(uuid).getDouble(key);
         } else {
             loadConfiguration(uuid);
             double value = loadedConfigurations.get(uuid).getDouble(key);
+            unloadConfiguration(uuid);
+            return value;
+        }
+    }
+
+    public static void setLong(UUID uuid, String key, long value) {
+        if (!configurationIsLoaded(uuid)) {
+            loadConfiguration(uuid);
+        }
+        loadedConfigurations.get(uuid).set(key, value);
+    }
+
+    public static Long getLong(UUID uuid, String key) {
+        if (configurationIsLoaded(uuid)) {
+            return loadedConfigurations.get(uuid).getLong(key);
+        } else {
+            loadConfiguration(uuid);
+            long value = loadedConfigurations.get(uuid).getLong(key);
             unloadConfiguration(uuid);
             return value;
         }

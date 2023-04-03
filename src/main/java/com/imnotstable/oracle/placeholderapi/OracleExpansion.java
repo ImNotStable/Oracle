@@ -2,6 +2,7 @@ package com.imnotstable.oracle.placeholderapi;
 
 import com.imnotstable.oracle.commands.ChatColorCommand;
 import com.imnotstable.oracle.commands.NicknameCommand;
+import com.imnotstable.oracle.commands.staff.VanishCommand;
 import com.imnotstable.oracle.economy.BalanceTopCommand;
 import com.imnotstable.oracle.stafftracker.DataManager;
 import com.imnotstable.oracle.utils.PlayerDataUtils;
@@ -35,7 +36,7 @@ public class OracleExpansion extends PlaceholderExpansion {
     }
 
     public @NotNull List<String> getPlaceholders() {
-        return List.of("balancetop_#<number>", "balance_<player>", "balance", "nickname", "chatcolor", "stafftracker");
+        return List.of("balancetop_#<number>", "balance_<player>", "isVanished", "balance", "nickname", "chatcolor", "stafftracker");
     }
 
     @Override
@@ -48,18 +49,21 @@ public class OracleExpansion extends PlaceholderExpansion {
             UUID uuid = UUID.fromString(identifier.split("_")[1]);
             return String.valueOf(PlayerDataUtils.getDouble(uuid, "balance"));
         }
+        if (identifier.equals("isVanished")) {
+            return String.valueOf(VanishCommand.isVanished(player));
+        }
         if (identifier.equals("balance")) {
             return String.valueOf(PlayerDataUtils.getDouble(player.getUniqueId(), "balance"));
         }
         if (identifier.equals("nickname")) {
-            return NicknameCommand.getNicknameFormatter(player);
+            return NicknameCommand.getNicknameFormatted(player);
         }
         if (identifier.equals("chatcolor")) {
             return ChatColorCommand.getChatColor(player.getUniqueId());
         }
         if (identifier.equals("stafftracker")) {
             if (player.hasPermission("stafftracker.track")) {
-                return String.valueOf(DataManager.getTime(player));
+                return String.valueOf(DataManager.getTime(player.getUniqueId()));
             }
             return "0";
         }

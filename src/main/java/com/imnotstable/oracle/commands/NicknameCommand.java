@@ -24,8 +24,8 @@ public class NicknameCommand implements CommandExecutor, Listener {
         return nicknames.get(player);
     }
 
-    public static String getNicknameFormatter(Player player) {
-        String nickname = getNickname(player);
+    public static String getNicknameFormatted(Player player) {
+        String nickname = ColorUtils.colored(getNickname(player));
         if (!player.hasPermission("command.nickname.color")) {
             nickname = ChatColor.stripColor(nickname);
         }

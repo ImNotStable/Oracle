@@ -4,6 +4,7 @@ import com.imnotstable.oracle.commands.*;
 import com.imnotstable.oracle.commands.staff.ClearChatCommand;
 import com.imnotstable.oracle.commands.staff.MuteChatCommand;
 import com.imnotstable.oracle.commands.staff.StaffChatCommand;
+import com.imnotstable.oracle.commands.staff.VanishCommand;
 import com.imnotstable.oracle.economy.BalanceCommand;
 import com.imnotstable.oracle.economy.BalanceTopCommand;
 import com.imnotstable.oracle.economy.EconomyCommand;
@@ -32,14 +33,14 @@ public final class Oracle extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Log("");
-        Log("&b █████&3╗ &b██████&3╗  &b█████&3╗  &b█████&3╗ &b██&3╗     &b███████&3╗");
-        Log("&b██&3╔══&b██&3╗&b██&3╔══&b██&3╗&b██&3╔══&b██&3╗&b██&3╔══&b██&3╗&b██&3║     &b██&3╔════╝");
-        Log("&b██&3║  &b██&3║&b██████&3╔╝&b███████&3║&b██&3║  ╚═╝&b██&3║     &b█████&3╗  ");
-        Log("&b██&3║  &b██&3║&b██&3╔══&b██&3╗&b██&3╔══&b██&3║&b██&3║  &b██&3╗&b██&3║     &b██&3╔══╝  ");
-        Log("&3╚&b█████&3╔╝&b██&3║  &b██&3║&b██&3║  &b██&3║╚&b█████&3╔╝&b███████&3╗&b███████&3╗");
-        Log("&3 ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚════╝ ╚══════╝╚══════╝");
-        Log("");
+        log("");
+        log("&b █████&3╗ &b██████&3╗  &b█████&3╗  &b█████&3╗ &b██&3╗     &b███████&3╗");
+        log("&b██&3╔══&b██&3╗&b██&3╔══&b██&3╗&b██&3╔══&b██&3╗&b██&3╔══&b██&3╗&b██&3║     &b██&3╔════╝");
+        log("&b██&3║  &b██&3║&b██████&3╔╝&b███████&3║&b██&3║  ╚═╝&b██&3║     &b█████&3╗  ");
+        log("&b██&3║  &b██&3║&b██&3╔══&b██&3╗&b██&3╔══&b██&3║&b██&3║  &b██&3╗&b██&3║     &b██&3╔══╝  ");
+        log("&3╚&b█████&3╔╝&b██&3║  &b██&3║&b██&3║  &b██&3║╚&b█████&3╔╝&b███████&3╗&b███████&3╗");
+        log("&3 ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚════╝ ╚══════╝╚══════╝");
+        log("");
         instance = this;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, PlayerDataUtils::saveAllConfigurations, 0L, 1200L);
         //Chat
@@ -61,13 +62,13 @@ public final class Oracle extends JavaPlugin {
                 Objects.requireNonNull(getCommand("balance")).setExecutor(new BalanceCommand());
                 Objects.requireNonNull(getCommand("balancetop")).setExecutor(new BalanceTopCommand());
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(this, BalanceTopCommand::updateBalanceTop, 0L, 1200L);
-                Log("&bImplemented Economy.");
+                log("&bImplemented Economy.");
             }
         }
         //PlaceholderAPI
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new OracleExpansion().register();
-            Log("&bImplemented PlaceholderAPI.");
+            log("&bImplemented PlaceholderAPI.");
         }
         //Scoreboard
         new ScoreboardManager(this);
@@ -83,6 +84,7 @@ public final class Oracle extends JavaPlugin {
         DataManager.saveAllConfigurations();
         new StaffTrackerManager(this);
         //Commands
+        Objects.requireNonNull(getCommand("vanish")).setExecutor(new VanishCommand(this));
         Objects.requireNonNull(getCommand("staffchat")).setExecutor(new StaffChatCommand());
         Objects.requireNonNull(getCommand("mutechat")).setExecutor(new MuteChatCommand());
         Objects.requireNonNull(getCommand("clearchat")).setExecutor(new ClearChatCommand());
@@ -103,7 +105,7 @@ public final class Oracle extends JavaPlugin {
         PlayerDataUtils.saveAllConfigurations();
     }
 
-    public static void Log(String message) {
+    public static void log(String message) {
         Bukkit.getConsoleSender().sendMessage(ColorUtils.colored(message));
     }
 

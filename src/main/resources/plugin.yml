@@ -22,6 +22,10 @@ commands:
     usage: /<command>
     aliases: [ cc ]
     permission: command.clearchat
+  vanish:
+    usage: /<command>
+    aliases: [ v ]
+    permission: command.vanish
   chatcolor:
     usage: /<command>
     permission: command.chatcolor
